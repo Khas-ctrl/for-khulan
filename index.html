@@ -2,25 +2,30 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Khulan 💕 3.18</title>
+<title>Khulan 💕</title>
 
 <style>
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #ffe6f0;
   text-align: center;
-  color: #d63384;
+  color: white;
+  background-image: url("https://images.unsplash.com/photo-1526481280691-3c469b0d5f66");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   overflow-x: hidden;
 }
 
-.container {
-  margin-top: 100px;
-  padding: 20px;
+.overlay {
+  background: rgba(255,192,203,0.75);
+  min-height: 100vh;
+  padding-top: 120px;
 }
 
 h1 {
-  font-size: 32px;
+  font-size: 28px;
+  min-height: 40px;
 }
 
 button {
@@ -30,17 +35,23 @@ button {
   border: none;
   border-radius: 25px;
   cursor: pointer;
-  background: #ffb3d9;
+  background: #ff69b4;
   color: white;
   transition: 0.3s;
 }
 
 button:hover {
-  background: #ff80bf;
+  background: #ff1493;
 }
 
 .hidden {
   display: none;
+}
+
+#countdown {
+  font-size: 20px;
+  margin-top: 15px;
+  font-weight: bold;
 }
 
 #message {
@@ -48,36 +59,55 @@ button:hover {
   font-weight: bold;
 }
 
-/* Floating hearts */
-.heart {
-  position: fixed;
-  bottom: -20px;
-  font-size: 20px;
-  animation: floatUp 6s linear infinite;
+#sushiImage {
+  margin-top: 20px;
+  width: 250px;
+  border-radius: 20px;
+  display: none;
 }
 
-@keyframes floatUp {
-  0% { transform: translateY(0); opacity: 1; }
-  100% { transform: translateY(-100vh); opacity: 0; }
+/* Sakura + hearts */
+.petal {
+  position: fixed;
+  top: -20px;
+  font-size: 20px;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(360deg);
+    opacity: 0;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div id="intro" class="container">
-  <h1>Khulan 💕</h1>
-  <p>3.18 Wednesday — A Hidden Place in Kyoto</p>
-  <button id="startBtn">I'm in 😍</button>
+<div class="overlay">
+
+<div id="intro">
+  <h1 id="typewriter"></h1>
+  <p>📅 3.18 Wednesday</p>
+  <p>📍 Hidden place in Kyoto</p>
+  <div id="countdown"></div>
+  <button id="startBtn">Continue 😍</button>
 </div>
 
-<div id="game" class="container hidden">
+<div id="game" class="hidden">
   <h2>Guess what we're eating 😌</h2>
   <button class="option">Ramen 🍜</button>
   <button class="option correct">Sushi 🍣</button>
   <button class="option">Tempura 🍤</button>
   <button class="option">Okonomiyaki 🥞</button>
   <p id="message"></p>
+
+  <img id="sushiImage"
+  src="https://images.unsplash.com/photo-1553621042-f6e147245754"
+  alt="Sushi">
+</div>
+
 </div>
 
 <audio id="bgMusic" loop>
@@ -85,68 +115,133 @@ button:hover {
 </audio>
 
 <script>
+
+/* TYPEWRITER */
+var text = "Хөөрхөн Хуландай таныг болзоонд урьж байна <3";
+var i = 0;
+var speed = 60;
+
+function typeWriter() {
+  if (i < text.length) {
+    document.getElementById("typewriter").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typeWriter, speed);
+  }
+}
+typeWriter();
+
+/* COUNTDOWN */
+var countdownDate = new Date("March 18, 2026 00:00:00").getTime();
+
+var countdownFunction = setInterval(function() {
+  var now = new Date().getTime();
+  var distance = countdownDate - now;
+
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  if (distance > 0) {
+    document.getElementById("countdown").innerHTML =
+      "⏳ " + days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+  } else {
+    clearInterval(countdownFunction);
+    document.getElementById("countdown").innerHTML = "It's date time 😍";
+  }
+}, 1000);
+
+/* MUSIC + GAME */
 var music = document.getElementById("bgMusic");
 
 document.getElementById("startBtn").addEventListener("click", function() {
-  music.play();
+  music.play().catch(function(){});
   document.getElementById("intro").classList.add("hidden");
   document.getElementById("game").classList.remove("hidden");
 });
 
 var options = document.getElementsByClassName("option");
 var message = document.getElementById("message");
+var sushiImage = document.getElementById("sushiImage");
 
-for (var i = 0; i < options.length; i++) {
-  options[i].addEventListener("click", function() {
-
+for (var j = 0; j < options.length; j++) {
+  options[j].addEventListener("click", function() {
     if (this.classList.contains("correct")) {
-      message.innerHTML = "Correct 😌🍣 See you on 3.18 in Kyoto 💕";
-      launchConfetti();
+      message.innerHTML = "Correct 😌🍣 See you on 3.18 💕";
+      sushiImage.style.display = "block";
+      launchFireworks();
     } else {
       message.innerHTML = "Close 😏 Try again...";
     }
-
   });
 }
 
-function launchConfetti() {
-  for (var i = 0; i < 60; i++) {
-    var confetti = document.createElement("div");
-    confetti.style.position = "fixed";
-    confetti.style.width = "8px";
-    confetti.style.height = "8px";
-    confetti.style.backgroundColor = "hsl(" + Math.random() * 360 + ",100%,70%)";
-    confetti.style.left = Math.random() * 100 + "vw";
-    confetti.style.top = "0px";
-    confetti.style.transition = "top 2s linear";
-    document.body.appendChild(confetti);
-
-    setTimeout((function(c) {
-      return function() { c.style.top = "100vh"; };
-    })(confetti), 50);
-
-    setTimeout((function(c) {
-      return function() { c.remove(); };
-    })(confetti), 2000);
+/* FIREWORKS */
+function launchFireworks() {
+  for (var i = 0; i < 6; i++) {
+    setTimeout(createExplosion, i * 600);
   }
 }
 
-/* Floating hearts */
-function createHeart() {
-  var heart = document.createElement("div");
-  heart.className = "heart";
-  heart.innerHTML = "💗";
-  heart.style.left = Math.random() * 100 + "vw";
-  document.body.appendChild(heart);
+function createExplosion() {
+  var explosionX = Math.random() * window.innerWidth;
+  var explosionY = Math.random() * window.innerHeight / 2;
 
-  setTimeout(function() {
-    heart.remove();
-  }, 6000);
+  for (var i = 0; i < 40; i++) {
+    var particle = document.createElement("div");
+    particle.style.position = "fixed";
+    particle.style.width = "6px";
+    particle.style.height = "6px";
+    particle.style.borderRadius = "50%";
+    particle.style.backgroundColor =
+      "hsl(" + Math.random() * 360 + ",100%,60%)";
+
+    particle.style.left = explosionX + "px";
+    particle.style.top = explosionY + "px";
+
+    document.body.appendChild(particle);
+
+    var angle = Math.random() * 2 * Math.PI;
+    var velocity = Math.random() * 150;
+
+    var x = Math.cos(angle) * velocity;
+    var y = Math.sin(angle) * velocity;
+
+    particle.animate([
+      { transform: "translate(0,0)", opacity: 1 },
+      { transform: "translate(" + x + "px," + y + "px)", opacity: 0 }
+    ], {
+      duration: 1200,
+      easing: "ease-out"
+    });
+
+    setTimeout((function(p) {
+      return function() { p.remove(); };
+    })(particle), 1200);
+  }
 }
 
-setInterval(createHeart, 800);
+/* SAKURA + HEART PETALS */
+function createPetal() {
+  var petal = document.createElement("div");
+  petal.className = "petal";
+
+  var symbols = ["🌸", "💗"];
+  petal.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+
+  petal.style.left = Math.random() * 100 + "vw";
+  petal.style.animationDuration = (Math.random() * 3 + 4) + "s";
+
+  document.body.appendChild(petal);
+
+  setTimeout(function() {
+    petal.remove();
+  }, 7000);
+}
+
+setInterval(createPetal, 500);
+
 </script>
 
 </body>
 </html>
-
