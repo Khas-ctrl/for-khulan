@@ -62,12 +62,26 @@ button:hover {
   font-size: 18px;
 }
 
-#sushiImage {
-  margin-top: 25px;
-  width: 300px;
+/* Gallery */
+.gallery {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.gallery img {
+  width: 280px;
+  height: 380px;
+  object-fit: cover;
   border-radius: 20px;
-  display: none;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.35);
+  transition: transform 0.4s ease;
+}
+
+.gallery img:hover {
+  transform: scale(1.05);
 }
 
 /* Sakura + hearts */
@@ -110,10 +124,16 @@ button:hover {
 
   <p id="message"></p>
 
-  <!-- OMAKASE SUSHI IMAGE -->
-  <img id="sushiImage"
-  src="https://images.unsplash.com/photo-1611143669185-af224c5e3252"
-  alt="Omakase Sushi">
+  <div id="imageGallery" class="gallery hidden">
+    <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70"
+         alt="Couple holding hands">
+
+    <img src="https://images.unsplash.com/photo-1617196035154-1e0c87b6c8a3"
+         alt="Omakase sushi">
+
+    <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e"
+         alt="Kyoto aesthetic">
+  </div>
 </div>
 
 </div>
@@ -182,13 +202,13 @@ noBtn.addEventListener("mouseover", function() {
 /* GAME */
 var options = document.getElementsByClassName("option");
 var message = document.getElementById("message");
-var sushiImage = document.getElementById("sushiImage");
+var imageGallery = document.getElementById("imageGallery");
 
 for (var j = 0; j < options.length; j++) {
   options[j].addEventListener("click", function() {
     if (this.classList.contains("correct")) {
       message.innerHTML = "Correct 😌🍣 See you on 3.18 💕";
-      sushiImage.style.display = "block";
+      imageGallery.classList.remove("hidden");
       launchFireworks();
     } else {
       message.innerHTML = "Close 😏 Try again...";
