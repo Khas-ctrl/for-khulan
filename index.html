@@ -21,6 +21,7 @@ body {
   background: rgba(255,192,203,0.75);
   min-height: 100vh;
   padding-top: 120px;
+  position: relative;
 }
 
 h1 {
@@ -38,6 +39,7 @@ button {
   background: #ff69b4;
   color: white;
   transition: 0.3s;
+  position: relative;
 }
 
 button:hover {
@@ -61,9 +63,13 @@ button:hover {
 
 #sushiImage {
   margin-top: 20px;
-  width: 250px;
+  width: 280px;
   border-radius: 20px;
   display: none;
+}
+
+#noBtn {
+  position: absolute;
 }
 
 /* Sakura + hearts */
@@ -92,7 +98,9 @@ button:hover {
   <p>📅 3.18 Wednesday</p>
   <p>📍 Hidden place in Kyoto</p>
   <div id="countdown"></div>
-  <button id="startBtn">Continue 😍</button>
+
+  <button id="yesBtn">Yes 😍</button>
+  <button id="noBtn">No 🙄</button>
 </div>
 
 <div id="game" class="hidden">
@@ -104,8 +112,8 @@ button:hover {
   <p id="message"></p>
 
   <img id="sushiImage"
-  src="https://images.unsplash.com/photo-1553621042-f6e147245754"
-  alt="Sushi">
+  src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c"
+  alt="Omakase Sushi">
 </div>
 
 </div>
@@ -151,15 +159,25 @@ var countdownFunction = setInterval(function() {
   }
 }, 1000);
 
-/* MUSIC + GAME */
+/* YES / NO LOGIC */
 var music = document.getElementById("bgMusic");
+var yesBtn = document.getElementById("yesBtn");
+var noBtn = document.getElementById("noBtn");
 
-document.getElementById("startBtn").addEventListener("click", function() {
+yesBtn.addEventListener("click", function() {
   music.play().catch(function(){});
   document.getElementById("intro").classList.add("hidden");
   document.getElementById("game").classList.remove("hidden");
 });
 
+noBtn.addEventListener("mouseover", function() {
+  var x = Math.random() * (window.innerWidth - 100);
+  var y = Math.random() * (window.innerHeight - 50);
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+});
+
+/* GAME */
 var options = document.getElementsByClassName("option");
 var message = document.getElementById("message");
 var sushiImage = document.getElementById("sushiImage");
