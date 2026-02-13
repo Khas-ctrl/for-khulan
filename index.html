@@ -10,7 +10,7 @@ body {
   font-family: Arial, sans-serif;
   text-align: center;
   color: white;
-  background-image: url("https://images.unsplash.com/photo-1526481280691-3c469b0d5f66");
+  background-image: url("https://images.unsplash.com/photo-1503899036084-c55cdd92da26");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -30,11 +30,11 @@ h1 {
 }
 
 button {
-  padding: 12px 20px;
-  margin: 10px;
-  font-size: 16px;
+  padding: 12px 22px;
+  margin: 15px;
+  font-size: 18px;
   border: none;
-  border-radius: 25px;
+  border-radius: 30px;
   cursor: pointer;
   background: #ff69b4;
   color: white;
@@ -52,31 +52,29 @@ button:hover {
 
 #countdown {
   font-size: 20px;
-  margin-top: 15px;
+  margin-top: 20px;
   font-weight: bold;
 }
 
 #message {
   margin-top: 20px;
   font-weight: bold;
+  font-size: 18px;
 }
 
 #sushiImage {
-  margin-top: 20px;
-  width: 280px;
+  margin-top: 25px;
+  width: 300px;
   border-radius: 20px;
   display: none;
-}
-
-#noBtn {
-  position: absolute;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
 /* Sakura + hearts */
 .petal {
   position: fixed;
   top: -20px;
-  font-size: 20px;
+  font-size: 22px;
   animation: fall linear infinite;
 }
 
@@ -109,10 +107,12 @@ button:hover {
   <button class="option correct">Sushi 🍣</button>
   <button class="option">Tempura 🍤</button>
   <button class="option">Okonomiyaki 🥞</button>
+
   <p id="message"></p>
 
+  <!-- OMAKASE SUSHI IMAGE -->
   <img id="sushiImage"
-  src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c"
+  src="https://images.unsplash.com/photo-1611143669185-af224c5e3252"
   alt="Omakase Sushi">
 </div>
 
@@ -170,9 +170,11 @@ yesBtn.addEventListener("click", function() {
   document.getElementById("game").classList.remove("hidden");
 });
 
+/* NO button escapes */
 noBtn.addEventListener("mouseover", function() {
-  var x = Math.random() * (window.innerWidth - 100);
-  var y = Math.random() * (window.innerHeight - 50);
+  var x = Math.random() * (window.innerWidth - 120);
+  var y = Math.random() * (window.innerHeight - 80);
+  noBtn.style.position = "fixed";
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
 });
